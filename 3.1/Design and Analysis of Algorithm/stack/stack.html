@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack Data Structure</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Stack container */
+        .stack-container {
+            border: 4px solid #4a90e2; /* Stack border */
+            border-radius: 10px;
+            width: 120px;
+            height: 315px; /* Height of the stack container */
+            position: relative;
+            background-color: #fff;
+            margin: 30px;
+            display: flex;
+            flex-direction: column-reverse; /* Stack elements from bottom to top */
+            justify-content: flex-start;
+            padding: 5px; /* Add padding to the container */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Prevent extra space after stack overflow */
+        }
+
+        /* Individual stack element */
+        .stack-element {
+            width: 100%;
+            height: 40px;
+            background-color: #4caf50;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 3px; 
+            border-radius: 5px;
+            box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            transform: translateY(50px); /* Initial position for animation */
+            opacity: 0;
+        }
+
+        /* Control buttons container */
+        .controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Style input and buttons */
+        .controls input {
+            width: 60px;
+            padding: 7px;
+            margin-right: 10px;
+            border: 2px solid #4a90e2;
+            border-radius: 5px;
+            outline: none;
+            text-align: center;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .controls button {
+            padding: 7px 15px;
+            margin-right: 10px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .controls button:hover {
+            background-color: #357abd;
+        }
+
+        /* Status text */
+        #status {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Animation for showing stack elements */
+        .show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Animation for removing stack elements */
+        .hide {
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="stack-container" id="stack"></div>
+    </div>
+
+    <div class="controls">
+        <input type="text" id="valueInput" placeholder="Value">
+        <button onclick="push()">Push</button>
+        <button onclick="pop()">Pop</button>
+        <button onclick="peek()">Peek/Top</button>
+    </div>
+
+    <p id="status"></p>
+
+    <script>
+        const stack = [];
+        const maxStackSize = 7; // Maximum number of elements in the stack
+        const stackHeight = 45; // Height of each stack element
+
+        // Function to draw the stack
+        function drawStack() {
+            const stackContainer = document.getElementById('stack');
+            stackContainer.innerHTML = ''; // Clear previous stack view
+
+            // Iterate through the stack array to draw each element
+            for (let i = 0; i < stack.length; i++) {
+                const elementDiv = document.createElement('div');
+                elementDiv.className = 'stack-element';
+                elementDiv.innerText = stack[i];
+                stackContainer.appendChild(elementDiv);
+
+                // Add animation class to show the element smoothly
+                setTimeout(() => {
+                    elementDiv.classList.add('show');
+                }, 100 * i); // Delay to give a staggered animation effect
+            }
+        }
+
+        // Clear input field
+        function clearInput() {
+            document.getElementById('valueInput').value = '';
+        }
+
+        // Push function
+        function push() {
+            const value = document.getElementById('valueInput').value;
+            const status = document.getElementById('status');
+
+            if (value === '') {
+                status.innerText = 'Please enter a value to push.';
+                return;
+            }
+
+            if (stack.length >= maxStackSize) {
+                status.innerText = 'Stack Overflow! Cannot push more elements.';
+                return;
+            }
+
+            stack.push(value); // Add the new element to the stack
+            clearInput(); // Clear input field
+            status.innerText = `Pushed ${value} onto the stack.`;
+            drawStack(); // Redraw the stack
+        }
+
+        // Pop function
+        function pop() {
+            const status = document.getElementById('status');
+
+            if (stack.length === 0) {
+                status.innerText = 'Stack Underflow! No elements to pop.';
+                return;
+            }
+
+            const poppedValue = stack.pop(); // Remove the top element from the stack
+            clearInput(); // Clear input field
+            status.innerText = `Popped ${poppedValue} from the stack.`;
+            drawStack(); // Redraw the stack
+        }
+
+        // Peek/Top function to view the top element without removing it
+        function peek() {
+            const status = document.getElementById('status');
+
+            if (stack.length === 0) {
+                status.innerText = 'Stack is empty. No top element.';
+                return;
+            }
+
+            const topValue = stack[stack.length - 1]; // Get the top element
+            clearInput(); // Clear input field
+            status.innerText = `Top element is: ${topValue}`;
+        }
+    </script>
+
+</body>
+</html>
