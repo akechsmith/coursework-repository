@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/macbook/Desktop/Simulation & Modelling Assignment/simulation",
+      "program": "/Users/macbook/Desktop/Simulation & Modelling Assignment/simulation/build/Debug/outDebug"
+    }
+  ]
+}
